@@ -16,6 +16,7 @@ public class TaskService {
 
     public Task saveTask(Task task){
         try{
+            task.setStatus(Status.INCOMPLETE);
             Task savedTask = taskRepository.save(task);
             return savedTask;
         }catch(Exception e){
