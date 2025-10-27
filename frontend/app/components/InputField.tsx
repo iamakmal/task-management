@@ -3,10 +3,11 @@ import React from "react";
 interface Props {
   name?: string;
   required?: boolean;
+  value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const InputField = ({ name, required, onChange }: Props) => {
+const InputField = ({ name, required, value, onChange }: Props) => {
   return (
     <div>
       <input
@@ -15,6 +16,7 @@ const InputField = ({ name, required, onChange }: Props) => {
         className="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg block w-full p-2.5 "
         placeholder={name}
         required={required}
+        value={value}
         onChange={onChange}
       />
     </div>
