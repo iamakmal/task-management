@@ -5,8 +5,6 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_DATABASE: task-db
-    ports:
-      - "3306:3306"
     volumes:
       - mysql_volume:/var/lib/mysql
     healthcheck:
@@ -17,8 +15,6 @@ services:
 
   backend:
     build: ./backend
-    ports:
-      - "${BACKEND_PORT}:${BACKEND_PORT}"
     environment:
       DB_URL: ${DB_URL}
       DB_USERNAME: ${DB_USERNAME}
@@ -33,9 +29,15 @@ services:
       context: ./frontend
       args:
         NEXT_PUBLIC_API_URL: ${BACKEND_API_URL}
-    ports:
-      - "${FRONTEND_PORT}:${FRONTEND_PORT}"
     depends_on:
+      - backend
+
+  nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - frontend
       - backend
 
 volumes:
