@@ -1,0 +1,36 @@
+name: CI/CD Pipeline to EC2
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs: 
+  build-test-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Frontend Tests
+      working-directory: ./frontend
+      run: |
+        npm install
+        npm run test
+
+    - name: Backend Tests
+      working-directory: ./backend
+      run: |
+        ./mvnw test
+
+    - name: Deploy to EC2
+      uses: appleboy/ssh-action@v1
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USER }}
+        key: ${{ secrets.EC2_SSH_KEY }}
+        script: |
+          cd /home/ubuntu/app
+          git pull origin main
+          docker-compose down
+          docker-compose up -d --build
