@@ -21,6 +21,7 @@ jobs:
     - name: Backend Tests
       working-directory: ./backend
       run: |
+        chmod +x mvnw
         ./mvnw test
 
     - name: Deploy to EC2
