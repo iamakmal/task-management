@@ -14,7 +14,7 @@ services:
       retries: 10
 
   backend:
-    build: ./backend
+    image: akmalalavi/task-backend:latest
     environment:
       DB_URL: ${DB_URL}
       DB_USERNAME: ${DB_USERNAME}
@@ -25,10 +25,7 @@ services:
         condition: service_healthy
 
   frontend:
-    build: 
-      context: ./frontend
-      args:
-        NEXT_PUBLIC_API_URL: ${BACKEND_API_URL}
+    image: akmalalavi/task-frontend:latest
     depends_on:
       - backend
 

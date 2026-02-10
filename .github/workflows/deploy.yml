@@ -40,6 +40,28 @@ jobs:
         chmod +x mvnw
         ./mvnw clean test
 
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKER_USERNAME}}
+        password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+
+    - name: Build & Push Backend Image
+      uses: docker/build-push-action@v5
+      with:
+        context: ./backend
+        push: true
+        tags: akmalalavi/task-backend:latest
+
+    - name: Build & Push Frontend Image
+      uses: docker/build-push-action@v5
+      with:
+        context: ./frontend
+        push: true
+        tags: akmalalavi/task-frontend:latest
+        build-args: |
+          NEXT_PUBLIC_API_URL=/api
+
     - name: Deploy to EC2
       uses: appleboy/ssh-action@v1
       with:
@@ -48,6 +70,5 @@ jobs:
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
           cd /home/ubuntu/app
-          git pull origin main
-          docker-compose down
-          docker-compose up -d --build
+          docker compose pull
+          docker compose up -d
