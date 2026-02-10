@@ -70,6 +70,7 @@ jobs:
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
           cd /home/ubuntu/app
+          git pull origin main
           docker-compose pull
           docker-compose down
           docker-compose up -d
