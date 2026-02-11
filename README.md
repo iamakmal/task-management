@@ -45,6 +45,7 @@ This repository contains a containerized full-stack task management system with 
 - Mark tasks as complete
 
 ## Screenshots
+<img width="1920" height="1028" alt="image" src="https://github.com/user-attachments/assets/0b6d3a23-d265-49e8-b142-9ca97221cbcf" />
 
 ## API Endpoints
 
